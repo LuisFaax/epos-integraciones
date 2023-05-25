@@ -126,6 +126,10 @@
 
     <livewire:scripts />
 
+    @stack('my-scripts')
+
+
+
 </body>
 
 </html>

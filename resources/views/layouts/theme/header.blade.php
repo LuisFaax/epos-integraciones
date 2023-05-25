@@ -10,12 +10,9 @@
 
                 <ul class="navbar-nav header-right">
                     <li class="nav-item">
-                        <div class="input-group search-area d-xl-inline-flex d-none">
-                            <input type="text" class="form-control" placeholder="Search">
-                            <div class="input-group-append">
-                                <button class="input-group-text"><i class="flaticon-381-search-2"></i></button>
-                            </div>
-                        </div>
+
+                        <livewire:search />
+
                     </li>
                     <li class="nav-item dropdown notification_dropdown">
                         <a class="nav-link  ai-icon" href="#" role="button" data-toggle="dropdown">

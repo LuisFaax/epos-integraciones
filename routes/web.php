@@ -3,6 +3,7 @@
 use App\Http\Livewire\Tester;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Livewire\Categories;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,8 @@ Route::middleware('auth')->group(function () {
 });
 
 
+
+Route::get('categories', Categories::class)->name('categories');
 
 Route::get('tester', Tester::class)->name('tester');
 

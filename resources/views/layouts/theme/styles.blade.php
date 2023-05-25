@@ -7,3 +7,5 @@
 <link href="{{ asset('css/wordpress-admin.min.css') }}" rel="stylesheet">
 
 <link href="{{ asset('css/tom-select.css') }}" rel="stylesheet">
+
+<link href="{{ asset('css/slick-loader.min.css') }}" rel="stylesheet">

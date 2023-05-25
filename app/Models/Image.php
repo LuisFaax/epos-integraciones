@@ -14,4 +14,10 @@ class Image extends Model
         'model_type',
         'file',
     ];
+
+    //relationships
+    public function image()
+    {
+        return $this->morphTo();
+    }
 }

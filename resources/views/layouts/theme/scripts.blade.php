@@ -21,6 +21,7 @@
 
 <script src="{{ asset('js/notify.min.js') }}"></script>
 
+<script src="{{ asset('js/slick-loader.min.js') }}"></script>
 
 <script>
     //full loaded
@@ -56,8 +57,33 @@
 
     })
 
+function showProcessing() {
+    SlickLoader.setText('ESPERA','PROCESANDO SOLICITUD')
+    SlickLoader.enable()
+}
+
+
+function hideProcessing() {    
+    SlickLoader.disable()
+}
 
 
 
+function Confirm(componentName, rowId) {
+    Swal.fire({
+    title: '¿CONFIRMAS ELIMINAR EL REGISTRO?',
+    text: "",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Aceptar'
+    }).then((result) => {
+    if (result.value) {
+        showProcessing()
+        window.livewire.emitTo(componentName, 'Destroy', rowId)
+    }
+    })
+    }
 
 </script>
