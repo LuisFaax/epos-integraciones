@@ -132,6 +132,7 @@ class Categories extends Component
 
     public function Destroy(Category $category)
     {
+
         $tempImg = $category->image;
         if ($tempImg != null && file_exists('storage/categories/' . $tempImg->file)) {
             unlink('storage/categories/' . $tempImg->file);
@@ -144,5 +145,6 @@ class Categories extends Component
         $this->resetPage();
 
         $this->dispatchBrowserEvent('noty', ['msg' => 'OPERACION EXITOSA']);
+        $this->dispatchBrowserEvent('stop-loader');
     }
 }

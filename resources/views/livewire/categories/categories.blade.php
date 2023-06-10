@@ -88,7 +88,7 @@
                                         </button>
 
                                         <button class="btn tp-btn btn-xs btn-danger"
-                                            onclick="Confirm('categories.categories',{{ $item->id }})"><i
+                                            onclick="Confirm('categories',{{ $item->id }})"><i
                                                 class="las la-trash-alt la-2x"></i>
                                         </button>
                                     </td>
@@ -114,5 +114,9 @@
         </div>
     </div>
 
-
+    <script>
+        document.addEventListener('stop-loader', (event) => {
+                SlickLoader.disable()
+    })
+    </script>
 </div>
