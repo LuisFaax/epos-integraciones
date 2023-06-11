@@ -81,7 +81,12 @@
                                     <td class="text-center">
                                         <img class="img-fluid rounded" src="{{ $item->picture }}" alt="pic" width="50">
                                     </td>
-                                    <td>{{$item->name }}</td>
+                                    <td>
+                                        <div>{{$item->name }}</div>
+                                        @if($item->platform_id !=null)
+                                        <small>IDW: {{$item->platform_id}}</small>
+                                        @endif
+                                    </td>
                                     <td>
                                         <button class="btn tp-btn btn-xs btn-primary"
                                             wire:click="Edit({{ $item->id }})"><i class="las la-pen la-2x"></i>
@@ -91,6 +96,12 @@
                                             onclick="Confirm('categories',{{ $item->id }})"><i
                                                 class="las la-trash-alt la-2x"></i>
                                         </button>
+                                        @if($item->platform_id ==null)
+                                        <button class="btn tp-btn btn-xs btn-light"
+                                            wire:click.prevent="Sync({{ $item->id }})"><i
+                                                class="las la-sync-alt la-2x"></i>
+                                        </button>
+                                        @endif
                                     </td>
                                 </tr>
                                 @empty

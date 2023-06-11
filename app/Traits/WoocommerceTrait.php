@@ -5,7 +5,7 @@ namespace App\Traits;
 use App\Models\Integration;
 use Automattic\WooCommerce\Client;
 
-class WoocommerceTrait
+trait WoocommerceTrait
 {
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Image;
 use Livewire\Component;
 use App\Models\Category;
+use App\Traits\CategoryTrait;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 
@@ -12,6 +13,8 @@ class Categories extends Component
 {
     use WithPagination;
     use WithFileUploads;
+    use CategoryTrait;
+
 
     public Category $category;
     public $upload, $savedImg, $editing, $search, $records;
@@ -26,6 +29,7 @@ class Categories extends Component
     {
         $this->category = new Category();
         $this->editing = false;
+        //dd($this->getCategories());
     }
 
 
@@ -125,6 +129,16 @@ class Categories extends Component
             $this->category->image()->save($img);
         }
 
+        // sync (solo al crear)
+        if (!$this->editing) {
+            $idwc = $this->createCategory($this->category->name);
+            $this->category->platform_id = $idwc;
+            $this->category->save();
+        } else {
+            $this->updateCategory($this->category);
+        }
+
+
         $this->dispatchBrowserEvent('noty', ['msg' => 'OPERACION CON EXITO']);
         $this->resetExcept('category');
         $this->category = new Category();
@@ -146,5 +160,10 @@ class Categories extends Component
 
         $this->dispatchBrowserEvent('noty', ['msg' => 'OPERACION EXITOSA']);
         $this->dispatchBrowserEvent('stop-loader');
+    }
+
+    public function Sync(Category $category)
+    {
+        $this->findOrCreateCategoryByName($category);
     }
 }
