@@ -17,7 +17,7 @@ trait ProductTrait
         $woocommerce = $this->getConnection();
 
         $categories = $product->categories()->get()->map(function ($category) {
-            return ['id' => $category->id];
+            return ['id' => $category->platform_id];
         })->toArray();
 
 
@@ -51,7 +51,7 @@ trait ProductTrait
         $woocommerce = $this->getConnection();
 
         $categories = $product->categories()->get()->map(function ($category) {
-            return ['id' => $category->id];
+            return ['id' => $category->platform_id];
         })->toArray();
 
 

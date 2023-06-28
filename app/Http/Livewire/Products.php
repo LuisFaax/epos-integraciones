@@ -7,6 +7,7 @@ use App\Models\Product;
 use Livewire\Component;
 use App\Models\Category;
 use App\Models\Supplier;
+use App\Traits\ProductTrait;
 use Livewire\WithPagination;
 use Illuminate\Validation\Rule;
 use Livewire\WithFileUploads;
@@ -15,6 +16,8 @@ class Products extends Component
 {
     use WithPagination;
     use WithFileUploads;
+    use ProductTrait;
+
 
     public $records, $search, $action = 1, $gallery, $suppliers, $productSelected, $categoriesList;
     public Product $product;
@@ -25,7 +28,7 @@ class Products extends Component
         'product.name' => "required|min:3|max:60|unique:products,name",
         'product.sku' => "nullable|max:25|unique:products,sku",
         'product.description' => "nullable|max:500",
-        'product.type' => "required|in:simple,bundle",
+        'product.type' => "required|in:simple,variable",
         'product.status' => "required|in:publish,pending,draft",
         'product.visibility' => "required|in:visible,hide",
         'product.price' => "required",
@@ -208,6 +211,9 @@ class Products extends Component
         }
 
         //sync con woocommerce
+        //if ($this->action == 2) $this->createProduct($this->product);
+        //if ($this->action == 3) $this->updateProduct($this->product);
+        $this->action == 2 ? $this->createProduct($this->product) : ($this->action == 3 ? $this->updateProduct($this->product) : null);
 
 
         $this->dispatchBrowserEvent('noty', ['msg' => 'OPERACION CON EXITO']);
@@ -219,6 +225,7 @@ class Products extends Component
         $this->product->visibility = 'visible';
         $this->product->stock_status = 'instock';
         $this->product->manage_stock = 1;
+        $this->product->supplier_id = $this->suppliers->first()->id ?? null;
     }
 
 
@@ -235,11 +242,12 @@ class Products extends Component
         // eliminar categorias relacionadas
         $product->categories()->detach();
 
+        //eliminar producto tienda
+        $this->deleteProduct($product->platform_id, true);
+
         //eliminar producto laravel
         $product->delete();
 
-        //eliminar producto tienda
-        //$this->deleteProduct($product->platform_id);
 
         //reset pagination
         $this->resetPage();
@@ -248,5 +256,10 @@ class Products extends Component
         $this->dispatchBrowserEvent('stop-loader');
         //
 
+    }
+
+    function Sync(Product $product)
+    {
+        $this->findOrCreateProductByName($product);
     }
 }

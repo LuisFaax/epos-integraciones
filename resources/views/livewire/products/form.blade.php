@@ -34,15 +34,15 @@
                     <div class="row mt-2">
                         <div class="col-sm-12 col-md-4">
                             <label>Type</label>
-                            <select wire:model='product.type' class="form-control  form-control-lg">
+                            <select wire:model.defer='product.type' class="form-control  form-control-lg">
                                 <option value="simple">Simple</option>
-                                <option value="bundle">Bundle</option>
+                                <option value="variable">Variable</option>
                             </select>
                             @error('product.type') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-sm-12 col-md-4">
                             <label>Status</label>
-                            <select wire:model='product.status' class="form-control  form-control-lg">
+                            <select wire:model.defer='product.status' class="form-control  form-control-lg">
                                 <option value="publish">Publish</option>
                                 <option value="pending">Pending</option>
                                 <option value="draft">Draft</option>
@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-sm-12 col-md-4">
                             <label>Visibility</label>
-                            <select wire:model='product.visibility' class="form-control  form-control-lg">
+                            <select wire:model.defer='product.visibility' class="form-control  form-control-lg">
                                 <option value="visible">Visible</option>
                                 <option value="hide">Hide</option>
                             </select>
@@ -74,7 +74,7 @@
                         </div>
                         <div class="col-sm-12 col-md-4">
                             <label>Stock Status</label>
-                            <select wire:model='product.stock_status' class="form-control  form-control-lg">
+                            <select wire:model.defer='product.stock_status' class="form-control  form-control-lg">
                                 <option value="instock">In Stock</option>
                                 <option value="outofstock">Out Of Stock</option>
                                 <option value="onbackorder">On BackOrder</option>
@@ -86,7 +86,7 @@
                     <div class="row mt-2">
                         <div class="col-sm-12 col-md-3">
                             <label>Manage Stock</label>
-                            <select wire:model='product.manage_stock' class="form-control  form-control-lg">
+                            <select wire:model.defer='product.manage_stock' class="form-control  form-control-lg">
                                 <option value="1">Yes</option>
                                 <option value="0">No</option>
                             </select>
@@ -106,7 +106,7 @@
                         </div>
                         <div class="col-sm-12 col-md-3">
                             <label>Supplier</label>
-                            <select wire:model='product.supplier_id' class="form-control  form-control-lg">
+                            <select wire:model.defer='product.supplier_id' class="form-control  form-control-lg">
                                 @foreach($suppliers as $supplier)
                                 <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                                 @endforeach
