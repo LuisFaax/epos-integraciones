@@ -25,4 +25,34 @@ class Product extends Model
         'supplier_id',
         'platform_id'
     ];
+
+    function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_products');
+    }
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'model');
+    }
+
+    public function latestImage()
+    {
+        //recent image
+        return $this->morphOne(Image::class, 'model')->latestOfMany();
+    }
+
+    public function getPhotoAttribute()
+    {
+        if (count($this->images)) {
+            return  "storage/products/" . $this->images->last()->file;
+        } else {
+            return 'storage/no-image.jpg';
+        }
+    }
 }

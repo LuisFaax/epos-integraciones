@@ -92,10 +92,13 @@
                                             wire:click="Edit({{ $item->id }})"><i class="las la-pen la-2x"></i>
                                         </button>
 
+                                        @if(!$item->products()->exists())
                                         <button class="btn tp-btn btn-xs btn-danger"
                                             onclick="Confirm('categories',{{ $item->id }})"><i
                                                 class="las la-trash-alt la-2x"></i>
                                         </button>
+                                        @endif
+
                                         @if($item->platform_id ==null)
                                         <button class="btn tp-btn btn-xs btn-light"
                                             wire:click.prevent="Sync({{ $item->id }})"><i

@@ -154,6 +154,10 @@ class Categories extends Component
 
         $category->image()->delete();
 
+        if ($category->platform_id != null) {
+            $this->deleteCategory($category->platform_id);
+        }
+
         $category->delete();
 
         $this->resetPage();

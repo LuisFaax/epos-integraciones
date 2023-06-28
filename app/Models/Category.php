@@ -32,4 +32,10 @@ class Category extends Model
 
         return  'storage/no-image.jpg';
     }
+
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'category_products');
+    }
 }

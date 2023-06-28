@@ -12,4 +12,10 @@ class Supplier extends Model
     protected $fillable = [
         'name'
     ];
+
+    //relationship
+    function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

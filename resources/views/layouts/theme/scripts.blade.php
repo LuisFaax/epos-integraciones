@@ -40,14 +40,19 @@
 
 
         document.addEventListener('noty-error', (event) => {
+            SlickLoader.enable()
             toastr.error(event.detail.msg, "Info",{
                 positionClass: "toast-bottom-center",
                 closeButton: !0,
                 progressBar: !0, 
             })
         })
+        document.addEventListener('stop-loader', (event) => {
+            hideProcessing();
+        })
 
         document.addEventListener('noty', (event) => {
+            SlickLoader.enable()
             toastr.info(event.detail.msg, "Info",{
                 positionClass: "toast-bottom-center",
                 closeButton: !0,
@@ -56,6 +61,18 @@
         })
 
     })
+
+
+    document.querySelector('.save').addEventListener('click', function() {   
+           showProcessing()
+    });
+
+    document.addEventListener('click', function (event) {    
+    if (event.target.classList.contains('save') ) {
+        showProcessing()
+    }
+})
+
 
 function showProcessing() {
     SlickLoader.setText('ESPERA','PROCESANDO SOLICITUD')
