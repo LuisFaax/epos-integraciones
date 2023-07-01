@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\DataController;
 use App\Http\Livewire\Tester;
 use App\Http\Livewire\Products;
+use App\Http\Livewire\Customers;
 use App\Http\Livewire\Suppliers;
 use App\Http\Livewire\Categories;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\ProfileController;
 
 /*
@@ -38,6 +39,7 @@ Route::middleware('auth')->group(function () {
 Route::get('categories', Categories::class)->name('categories');
 Route::get('suppliers', Suppliers::class)->name('suppliers');
 Route::get('products', Products::class)->name('products');
+Route::get('customers', Customers::class)->name('customers');
 
 
 Route::get('data/categories', [DataController::class, 'getCategories'])->name('data.categories');

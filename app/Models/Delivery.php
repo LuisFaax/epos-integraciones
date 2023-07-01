@@ -23,4 +23,10 @@ class Delivery extends Model
         'country',
         'type'
     ];
+
+
+    public function customers()
+    {
+        return $this->belongsToMany(Customer::class, 'customer_deliveries', 'delivery_id', 'customer_id');
+    }
 }
