@@ -5,11 +5,13 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Customer;
 use App\Models\Delivery;
+use App\Traits\CustomerTrait;
 use Livewire\WithPagination;
 
 class Customers extends Component
 {
     use WithPagination;
+    use CustomerTrait;
 
     public $search, $records,  $editing, $action = 1, $customerSelected;
     public Customer $customer; // propiedad de tipo Customer
@@ -109,9 +111,15 @@ class Customers extends Component
         //save
         $this->customer->save();
 
+
+        //sync
+        $this->createOrUpdateCustomer($this->customer, $this->action == 2 ? true : false);
+
         $this->dispatchBrowserEvent('noty', ['msg' => 'OPERACION CON EXITO']);
         $this->resetExcept('customer');
         $this->customer = new Customer();
+
+        $this->delivery = ['type' => 'billing'];
     }
 
 
@@ -190,6 +198,8 @@ class Customers extends Component
         $this->delivery = [
             'type' => 'billing',
         ];
+
+        $this->Sync($this->customerSelected);
     }
 
     function editDelivery(Delivery $delivery)
@@ -253,8 +263,17 @@ class Customers extends Component
             'type' => 'billing',
         ];
 
-        $this->dispatchBrowserEvent('noty', ['msg' => 'OPERACION CON EXITO']);
 
         $this->customerSelected->load('deliveries');
+
+        $this->Sync($this->customerSelected);
+
+        $this->dispatchBrowserEvent('noty', ['msg' => 'OPERACION CON EXITO']);
+    }
+
+
+    function Sync(Customer $customer)
+    {
+        $this->createOrUpdateCustomer($customer, false);
     }
 }
