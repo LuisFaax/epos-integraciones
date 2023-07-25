@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\Sales;
 use App\Http\Livewire\Tester;
 use App\Http\Livewire\Products;
 use App\Http\Livewire\Customers;
@@ -40,9 +41,11 @@ Route::get('categories', Categories::class)->name('categories');
 Route::get('suppliers', Suppliers::class)->name('suppliers');
 Route::get('products', Products::class)->name('products');
 Route::get('customers', Customers::class)->name('customers');
+Route::get('sales', Sales::class)->name('sales');
 
 
 Route::get('data/categories', [DataController::class, 'getCategories'])->name('data.categories');
+Route::get('data/customers', [DataController::class, 'getCustomers'])->name('data.customers');
 
 Route::get('tester', Tester::class)->name('tester');
 
