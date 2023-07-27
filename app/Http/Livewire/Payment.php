@@ -3,13 +3,17 @@
 namespace App\Http\Livewire;
 
 use App\Models\Sale;
-use App\Models\SaleDetail;
+use App\Models\Product;
 use Livewire\Component;
+use App\Traits\SaleTrait;
+use App\Models\SaleDetail;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 
 class Payment extends Component
 {
     use WithPagination;
+    use SaleTrait;
 
     public $totalCart, $itemsCart, $cash, $customerId;
 
@@ -71,46 +75,64 @@ class Payment extends Component
         //recuperamos carrito
         $cart = session('cart');
 
+        try {
 
-        //guardar venta
-        $sale =  Sale::create([
-            'total' => $this->totalCart,
-            'discount' => 0,
-            'items' => $this->itemsCart,
-            'customer_id' => $this->customerId,
-            'user_id' => Auth()->user()->id
-        ]);
+            DB::transaction(function () use ($cart) {
+
+                //guardar venta
+                $sale =  Sale::create([
+                    'total' => $this->totalCart,
+                    'discount' => 0,
+                    'items' => $this->itemsCart,
+                    'customer_id' => $this->customerId,
+                    'user_id' => Auth()->user()->id
+                ]);
 
 
-        // forma clásica / guardar detalles
-        // foreach ($cart as $item) {
-        //     SaleDetail::create([
-        //         'product_id' => $item['pid'],
-        //         'sale_id' => $sale->id,
-        //         'quantity' => $item->qty,
-        //         'price' => $item->sale_price
-        //     ]);
-        // }
+                //forma optimizada / recomendada
+                $details = $cart->map(function ($item) use ($sale) {
+                    return [
+                        'product_id' => $item['pid'],
+                        'sale_id' => $sale->id,
+                        'quantity' => $item['qty'],
+                        'price' => $item['sale_price']
+                    ];
+                })->toArray();
 
-        //forma optimizada / recomendada
-        $details = $cart->map(function ($item) use ($sale) {
-            return [
-                'product_id' => $item['pid'],
-                'sale_id' => $sale->id,
-                'quantity' => $item['qty'],
-                'price' => $item['sale_price']
-            ];
-        })->toArray();
+                //option 1
+                //$sale->details()->createMany($details);
 
-        //option 1
-        //$sale->details()->createMany($details);
+                // option 2
+                SaleDetail::insert($details);
 
-        // option 2
-        SaleDetail::insert($details);
 
-        $this->reset();
-        $this->dispatchBrowserEvent('close-payment');
-        $this->dispatchBrowserEvent('noty', ['msg' => 'VENTA REGISTRADA']);
-        $this->emit('clear-cart');
+                //sync stocks
+                $dataProducts = ['update' => []];
+
+                foreach ($cart as $item) {
+                    $product = Product::find($item['pid']);
+                    $product->stock_qty -= $item['qty'];
+                    $product->save();
+
+                    $newStock = $product->stock_qty;
+                    $dataProducts['update'][] = [
+                        'id' => $item['platform_id'],
+                        'stock_quantity' => $newStock
+                    ];
+                }
+
+                $resultSync = $this->SyncBatchStock($dataProducts);
+
+
+                $this->reset();
+                $this->dispatchBrowserEvent('close-payment');
+                $this->dispatchBrowserEvent('noty', ['msg' =>  $resultSync ? "VENTA REGISTRADA - STOCK SINCRONIZADO" : "FALLA DE SINCRONIZACIÓN"]);
+                //
+                $this->emit('clear-cart');
+            });
+            //
+        } catch (\Throwable $th) {
+            $this->dispatchBrowserEvent('noty-error', ['msg' => "Ocurrió una excepción \n {$th->getMessage}"]);
+        }
     }
 }

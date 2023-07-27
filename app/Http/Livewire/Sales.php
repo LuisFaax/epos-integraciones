@@ -104,7 +104,8 @@ class Sales extends Component
                 'total' => $total,
                 'stock' => $product->stock_qty,
                 'type' => $product->type,
-                'image' => $product->photo
+                'image' => $product->photo,
+                'platform_id' => $product->platform_id
             ]
         );
         $itemCart = Arr::add($coll, null, null);
