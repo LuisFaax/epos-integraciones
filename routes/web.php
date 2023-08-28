@@ -10,6 +10,7 @@ use App\Http\Livewire\Categories;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Livewire\SalesReport;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,10 @@ Route::get('orders', Orders::class)->name('orders');
 
 Route::get('tester', Tester::class)->name('tester');
 
+//reportes
+Route::prefix('reports')->middleware(['auth'])->group(function () {
+    Route::get('sales', SalesReport::class)->name('reports.sales');
+});
 
 
 require __DIR__ . '/auth.php';

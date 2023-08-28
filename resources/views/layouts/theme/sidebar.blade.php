@@ -50,7 +50,7 @@
                     <span class="nav-text">REPORTS</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="index.html"><i class="las la-money-check-alt"></i>Sales</a></li>
+                    <li><a href="{{route('reports.sales')}}"><i class="las la-money-check-alt"></i>Sales</a></li>
                     <li><a href="index-2.html"><i class="las la-shopping-basket"></i>Purchases</a></li>
                     <li><a href="orders-list.html"><i class="las la-box-open"></i> Orders</a></li>
                 </ul>

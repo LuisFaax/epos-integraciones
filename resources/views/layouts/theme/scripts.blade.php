@@ -104,3 +104,9 @@ function Confirm(componentName, rowId) {
     }
 
 </script>
+
+
+
+<script src="{{ asset('vendor/pickadate/picker.js') }}"></script>
+<script src="{{ asset('vendor/pickadate/picker.date.js') }}"></script>
+<script src="{{ asset('js/plugins-init/pickadate-init.js') }}"></script>

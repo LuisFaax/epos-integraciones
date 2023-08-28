@@ -9,3 +9,6 @@
 <link href="{{ asset('css/tom-select.css') }}" rel="stylesheet">
 
 <link href="{{ asset('css/slick-loader.min.css') }}" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ asset('vendor/pickadate/themes/default.css') }}">
+<link rel="stylesheet" href="{{ asset('vendor/pickadate/themes/default.date.css') }}">
